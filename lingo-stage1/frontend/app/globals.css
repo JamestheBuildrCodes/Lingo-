@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:   #0a1628;
+  --navy2:  #0f2040;
+  --blue:   #1a56db;
+  --blue2:  #2563eb;
+  --sky:    #38bdf8;
+  --cyan:   #00d9ff;
+  --white:  #f0f4ff;
+  --muted:  #8ba0c4;
+  --glass:  rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --radius: 12px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── LIVEKIT THEME OVERRIDES ────────────────────────────────────── */
+/* Override LiveKit's default light theme to match Lingo */
+:root {
+  --lk-bg: var(--navy2);
+  --lk-bg2: var(--navy);
+  --lk-border-color: var(--glass-border);
+  --lk-accent-fg: var(--cyan);
+  --lk-control-bg: rgba(255,255,255,0.06);
+  --lk-control-hover-bg: rgba(255,255,255,0.12);
+  --lk-control-active-bg: var(--blue2);
+  --lk-control-fg: var(--white);
+  --lk-danger-bg: #dc2626;
+}
+
+/* ── UTILITIES ──────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--blue2), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+}
+
+button { cursor: pointer; }
+input, select { outline: none; }
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-up { animation: fadeUp 0.5s ease both; }
+.animate-fade-up-1 { animation: fadeUp 0.5s 0.1s ease both; }
+.animate-fade-up-2 { animation: fadeUp 0.5s 0.2s ease both; }
+.animate-fade-up-3 { animation: fadeUp 0.5s 0.3s ease both; }

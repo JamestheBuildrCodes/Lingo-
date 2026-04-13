@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lingo! — Close the Deal in Any Language</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  /* ── DESIGN SYSTEM TOKENS ──────────────────────────────── */
+  :root {
+    --bg:           #060e20;
+    --surface-low:  #091328;
+    --surface:      #0f1930;
+    --surface-high: #141f38;
+    --surface-bright:#1f2b49;
+    --surface-var:  #192540;
+    --primary:      #f382ff;
+    --primary-dim:  #ec63ff;
+    --secondary:    #a19ff9;
+    --tertiary:     #ff8439;
+    --tertiary-dim: #fd761a;
+    --on-bg:        #dee5ff;
+    --on-muted:     #a3aac4;
+    --outline:      #40485d;
+    --grad: linear-gradient(45deg, #312E81, #D946EF, #F97316);
+    --grad-text: linear-gradient(90deg, #D946EF, #F97316);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--on-bg);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, .headline { font-family: 'Manrope', sans-serif; }
+
+  /* ── UTILITIES ──────────────────────────────────────────── */
+  .grad-text {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .grad-text-warm {
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glass {
+    background: rgba(25, 37, 64, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .ghost-border { border: 1px solid rgba(64, 72, 93, 0.15); }
+  .grad-btn {
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    transition: transform 0.2s, box-shadow 0.3s;
+  }
+  .grad-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 40px rgba(217, 70, 239, 0.4);
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* DOT GRID BACKGROUND */
+  .dot-grid {
+    background-image: radial-gradient(circle at 2px 2px, rgba(25, 37, 64, 0.8) 1px, transparent 0);
+    background-size: 40px 40px;
+  }
+
+  /* LIGHT LEAKS */
+  .leak { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+
+  /* ── NAV ────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(6, 14, 32, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 20px 60px rgba(243, 130, 255, 0.06);
+    border-bottom: 1px solid rgba(64, 72, 93, 0.15);
+  }
+  .nav-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-text {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800; font-size: 1.5rem;
+    letter-spacing: -0.04em;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--on-muted); text-decoration: none;
+    font-family: 'Manrope', sans-serif; font-weight: 700;
+    font-size: 0.9rem; letter-spacing: -0.01em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--on-bg); }
+  .nav-cta {
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .btn-ghost-nav {
+    background: none; border: none; cursor: pointer;
+    color: var(--primary); font-family: 'Manrope', sans-serif;
+    font-weight: 700; font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+  .btn-ghost-nav:hover { opacity: 0.75; }
+  .btn-primary-nav {
+    padding: 0.55rem 1.4rem; border-radius: 0.5rem;
+    font-size: 0.88rem; letter-spacing: -0.01em;
+  }
+  .nav-hamburger { display: none; background: none; border: none; cursor: pointer; color: var(--on-bg); }
+
+  /* ── HERO ───────────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 7rem 2rem 5rem;
+  }
+  .hero-globe {
+    position: absolute; inset: 0; opacity: 0.06; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(49,46,129,0.4) 0%, transparent 70%),
+      radial-gradient(circle at 50% 50%, rgba(217,70,239,0.06) 0%, transparent 60%);
+  }
+  /* SVG world map lines */
+  .hero-globe-svg {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 900px; height: 600px; opacity: 0.08; z-index: 0;
+  }
+  .hero-content {
+    position: relative; z-index: 1;
+    text-align: center; max-width: 900px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0.35rem 1rem; border-radius: 9999px;
+    background: var(--surface-high);
+    border: 1px solid rgba(64,72,93,0.15);
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--on-muted); margin-bottom: 2rem;
+    font-family: 'Inter', sans-serif;
+  }
+  .hero-badge-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--tertiary);
+    animation: ping 2s infinite;
+  }
+  @keyframes ping {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .hero-h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: #F8FAFC;
+    margin-bottom: 1.5rem;
+  }
+  .hero-sub {
+    font-size: 1.2rem; color: var(--on-muted);
+    max-width: 600px; margin: 0 auto 2.5rem;
+    line-height: 1.7; font-weight: 400;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 5rem;
+  }
+  .btn-primary-hero {
+    padding: 1rem 2.2rem; border-radius: 0.75rem;
+    font-size: 1rem; letter-spacing: -0.01em;
+    box-shadow: 0 0 30px rgba(217,70,239,0.3);
+  }
+  .btn-watch {
+    display: flex; align-items: center; gap: 8px;
+    padding: 1rem 1.8rem; border-radius: 0.75rem;
+    background: none; border: 1px solid rgba(64,72,93,0.3);
+    color: var(--on-bg); cursor: pointer;
+    font-family: 'Manrope', sans-serif; font-weight: 700;
+    font-size: 1rem; transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-watch:hover { border-color: var(--primary); background: rgba(243,130,255,0.05); }
+  .btn-watch-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--surface-var);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── PHONE MOCKUP ───────────────────────────────────────── */
+  .hero-phone-wrap {
+    position: relative; display: flex; justify-content: center;
+    margin-top: -1rem;
+  }
+  .hero-phone-glow {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 320px; height: 320px;
+    background: rgba(243,130,255,0.12);
+    border-radius: 50%; filter: blur(60px);
+  }
+  .phone-shell {
+    position: relative;
+    width: 280px; height: 560px;
+    background: #060e20;
+    border-radius: 2.5rem;
+    border: 6px solid var(--surface-var);
+    box-shadow: 0 0 60px rgba(243,130,255,0.15), 0 40px 80px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  .phone-notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 24px;
+    background: var(--surface-var);
+    border-radius: 0 0 1rem 1rem; z-index: 10;
+  }
+  .phone-inner {
+    padding: 2.5rem 1.2rem 1.2rem;
+    height: 100%; display: flex; flex-direction: column;
+  }
+  .phone-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .phone-user {
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .phone-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, #312E81, #D946EF);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 800; color: #fff;
+    font-family: 'Manrope', sans-serif;
+    position: relative;
+  }
+  .phone-flag {
+    position: absolute; bottom: -2px; right: -4px;
+    font-size: 12px; line-height: 1;
+  }
+  .phone-username { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.8rem; }
+  .phone-hub { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--primary); text-transform: uppercase; }
+  .phone-play {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--surface-high); border: 1px solid rgba(64,72,93,0.2);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .phone-visualizer {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative;
+  }
+  .phone-glow-orb {
+    position: absolute;
+    width: 160px; height: 160px;
+    background: linear-gradient(45deg, rgba(49,46,129,0.4), rgba(217,70,239,0.3), rgba(249,115,22,0.2));
+    border-radius: 50%; filter: blur(30px);
+    animation: breathe 3s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 0.9; }
+  }
+  .phone-caption {
+    position: relative; z-index: 1; text-align: center;
+    padding: 0 0.5rem;
+  }
+  .phone-caption p {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    color: #F8FAFC; line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+  .phone-caption-bar {
+    width: 40px; height: 3px;
+    background: var(--grad-text);
+    border-radius: 9999px; margin: 0 auto 0.5rem;
+    background: linear-gradient(90deg, #D946EF, #F97316);
+  }
+  .phone-caption-sub {
+    font-size: 0.72rem; color: var(--on-muted);
+    letter-spacing: 0.05em; font-style: italic;
+  }
+  .phone-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(64,72,93,0.2);
+    font-family: 'Inter', sans-serif; font-size: 0.55rem;
+    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(163,170,196,0.5);
+  }
+  .phone-live-dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--tertiary); margin-right: 4px;
+  }
+  /* Floating badges */
+  .float-badge {
+    position: absolute; z-index: 5;
+    padding: 0.65rem 0.9rem; border-radius: 0.75rem;
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Manrope', sans-serif; font-weight: 700;
+    font-size: 0.78rem;
+  }
+  .float-badge-encrypt {
+    top: 3rem; right: -3rem;
+  }
+  .float-badge-latency {
+    bottom: 4rem; left: -3rem;
+  }
+
+  /* ── METRICS STRIP ──────────────────────────────────────── */
+  .metrics-strip {
+    background: var(--surface-low);
+    border-top: 1px solid rgba(64,72,93,0.1);
+    border-bottom: 1px solid rgba(64,72,93,0.1);
+    padding: 2.5rem 2rem;
+  }
+  .metrics-inner {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .metric-item { text-align: left; }
+  .metric-num {
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.8rem; font-weight: 800;
+    letter-spacing: -0.04em; line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .metric-label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--on-muted);
+  }
+
+  /* ── HOW IT WORKS ───────────────────────────────────────── */
+  section { padding: 6rem 2rem; }
+  .section-inner { max-width: 1280px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--on-muted);
+    margin-bottom: 1.2rem;
+  }
+  .section-label::before {
+    content: ''; width: 24px; height: 1px;
+    background: var(--primary);
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.04em;
+    line-height: 1.1; margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--on-muted); font-size: 1rem;
+    max-width: 520px; line-height: 1.7; margin-bottom: 4rem;
+  }
+
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; position: relative;
+  }
+  .steps-grid::before {
+    content: '';
+    position: absolute; top: 2rem; left: calc(16.67% + 1rem); right: calc(16.67% + 1rem);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(243,130,255,0.3), transparent);
+  }
+  .step-card {
+    background: var(--surface-low);
+    border: 1px solid rgba(64,72,93,0.15);
+    border-radius: 1rem; padding: 2rem;
+    position: relative; transition: background 0.3s, transform 0.3s;
+  }
+  .step-card:hover { background: var(--surface-bright); transform: translateY(-4px); }
+  .step-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--grad);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Manrope', sans-serif; font-weight: 800;
+    font-size: 0.85rem; color: #fff;
+    margin-bottom: 1.5rem;
+  }
+  .step-title {
+    font-family: 'Manrope', sans-serif; font-size: 1.1rem;
+    font-weight: 700; margin-bottom: 0.6rem;
+  }
+  .step-desc { color: var(--on-muted); font-size: 0.9rem; line-height: 1.7; }
+
+  /* ── CORRIDOR / WHO IT'S FOR ────────────────────────────── */
+  #corridors { background: var(--surface-low); }
+  .corridor-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: rgba(64,72,93,0.15);
+    border-radius: 1rem; overflow: hidden;
+  }
+  .corridor-card {
+    background: var(--bg);
+    padding: 2.5rem; position: relative; overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .corridor-card:hover { background: var(--surface-bright); }
+  .corridor-card:hover .corridor-arrow { opacity: 1; transform: translateX(0); }
+  .corridor-icon-wrap {
+    width: 52px; height: 52px; border-radius: 0.75rem;
+    background: var(--surface-high);
+    border: 1px solid rgba(64,72,93,0.15);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .corridor-card:hover .corridor-icon-wrap { background: rgba(217,70,239,0.1); border-color: rgba(217,70,239,0.3); }
+  .corridor-tag {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--primary); margin-bottom: 0.4rem;
+  }
+  .corridor-title {
+    font-family: 'Manrope', sans-serif; font-size: 1.2rem;
+    font-weight: 700; margin-bottom: 0.8rem;
+  }
+  .corridor-desc { color: var(--on-muted); font-size: 0.88rem; line-height: 1.7; }
+  .corridor-desc strong { color: var(--on-bg); }
+  .corridor-cta {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 1.5rem; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--secondary);
+  }
+  .corridor-arrow {
+    opacity: 0; transform: translateX(-8px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  /* ── LIVE DEMO SECTION ──────────────────────────────────── */
+  #demo { position: relative; overflow: hidden; }
+  .demo-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .demo-visual {
+    border-radius: 1rem; overflow: hidden;
+    border: 1px solid rgba(64,72,93,0.15);
+    background: var(--surface-low);
+    padding: 2rem; position: relative;
+  }
+  .demo-caption-box {
+    margin-bottom: 1.5rem; padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid rgba(64,72,93,0.15);
+    border-radius: 0.75rem;
+  }
+  .demo-user-row {
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem;
+  }
+  .demo-avatar-sm {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 800; font-family: 'Manrope', sans-serif;
+    color: #fff;
+  }
+  .demo-name { font-size: 0.75rem; font-weight: 700; font-family: 'Manrope', sans-serif; }
+  .demo-lang-badge {
+    font-size: 0.6rem; font-weight: 700; padding: 0.1rem 0.4rem;
+    border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .demo-text {
+    font-size: 0.88rem; line-height: 1.6;
+    color: var(--on-bg); font-style: italic;
+    border-left: 2px solid;
+    padding-left: 0.75rem;
+  }
+  .demo-translation {
+    font-size: 0.78rem; color: var(--on-muted); margin-top: 0.5rem;
+    padding-left: 0.75rem;
+  }
+  .demo-status-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--surface-high);
+    border-radius: 0.5rem; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--on-muted);
+  }
+  .status-live {
+    display: flex; align-items: center; gap: 6px; color: var(--tertiary);
+  }
+  .live-pulse {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--tertiary);
+    animation: ping 1.5s infinite;
+  }
+  .demo-text-col {}
+  .feature-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+  .feature-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--surface-low);
+    border: 1px solid rgba(64,72,93,0.15);
+    border-radius: 0.75rem;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .feature-item:hover { border-color: rgba(217,70,239,0.25); background: var(--surface-high); }
+  .feature-icon {
+    width: 40px; height: 40px; border-radius: 0.5rem;
+    background: var(--surface-var);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .feature-title { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+  .feature-desc { color: var(--on-muted); font-size: 0.82rem; line-height: 1.6; }
+
+  /* ── PRICING ────────────────────────────────────────────── */
+  #pricing { background: var(--surface-low); }
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; align-items: start;
+  }
+  .pricing-card {
+    background: var(--bg);
+    border: 1px solid rgba(64,72,93,0.15);
+    border-radius: 1rem; padding: 2rem;
+    position: relative; transition: transform 0.3s, border-color 0.3s;
+  }
+  .pricing-card:hover { transform: translateY(-6px); }
+  .pricing-card.featured {
+    border-color: rgba(217,70,239,0.4);
+    box-shadow: 0 0 40px rgba(217,70,239,0.08);
+  }
+  .pricing-popular {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--grad);
+    padding: 0.25rem 1rem; border-radius: 9999px;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+  }
+  .pricing-tier {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--on-muted); margin-bottom: 1rem;
+  }
+  .pricing-price {
+    margin-bottom: 0.3rem;
+  }
+  .price-amount {
+    font-family: 'Manrope', sans-serif; font-size: 2.5rem;
+    font-weight: 800; letter-spacing: -0.04em; color: #F8FAFC;
+  }
+  .price-period { color: var(--on-muted); font-size: 0.85rem; }
+  .price-naira { color: var(--on-muted); font-size: 0.78rem; margin-bottom: 1.5rem; }
+  .pricing-divider {
+    border: none; border-top: 1px solid rgba(64,72,93,0.15); margin: 1.5rem 0;
+  }
+  .pricing-features { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+  .pricing-feature {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    font-size: 0.88rem; color: var(--on-bg);
+  }
+  .check-icon { color: var(--tertiary); flex-shrink: 0; font-size: 18px; }
+  .pricing-cta {
+    width: 100%; padding: 0.9rem;
+    border-radius: 0.75rem; font-size: 0.9rem;
+    letter-spacing: -0.01em;
+  }
+  .pricing-cta-ghost {
+    width: 100%; padding: 0.9rem; border-radius: 0.75rem;
+    background: none; border: 1px solid rgba(64,72,93,0.3);
+    color: var(--on-bg); cursor: pointer;
+    font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.9rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .pricing-cta-ghost:hover { border-color: var(--primary); background: rgba(243,130,255,0.05); }
+  .addon-strip {
+    margin-top: 2.5rem; padding: 1.5rem 2rem;
+    background: var(--surface-high);
+    border: 1px solid rgba(64,72,93,0.15);
+    border-radius: 0.75rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .addon-text { font-size: 0.88rem; }
+  .addon-text strong { color: var(--on-bg); font-family: 'Manrope', sans-serif; }
+  .addon-text span { color: var(--on-muted); }
+  .addon-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .addon-badge {
+    padding: 0.35rem 0.9rem; border-radius: 0.5rem;
+    background: var(--surface-var);
+    border: 1px solid rgba(64,72,93,0.15);
+    font-size: 0.78rem; font-weight: 600; color: var(--on-bg);
+  }
+
+  /* ── TESTIMONIALS ───────────────────────────────────────── */
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .testi-card {
+    background: var(--surface-low);
+    border: 1px solid rgba(64,72,93,0.15);
+    border-radius: 1rem; padding: 2rem;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .testi-card:hover { border-color: rgba(161,159,249,0.3); transform: translateY(-4px); }
+  .testi-quote-mark {
+    font-size: 4rem; font-family: 'Manrope', sans-serif; font-weight: 800;
+    line-height: 1; color: rgba(49,46,129,0.3); position: absolute;
+    top: 0.5rem; left: 1.2rem; pointer-events: none;
+  }
+  .testi-stars {
+    color: var(--tertiary); margin-bottom: 1.2rem; letter-spacing: 2px;
+    font-size: 0.85rem;
+  }
+  .testi-text {
+    font-size: 0.9rem; color: var(--on-muted);
+    line-height: 1.75; font-style: italic; margin-bottom: 1.5rem;
+  }
+  .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+  .testi-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 0.85rem; color: #fff;
+  }
+  .testi-name { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.88rem; }
+  .testi-role { font-size: 0.72rem; color: var(--on-muted); margin-top: 0.15rem; }
+
+  /* ── CORRIDOR MAP BANNER ────────────────────────────────── */
+  #trade-map {
+    background: var(--surface-low);
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  .corridor-tags {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .corridor-tag-pill {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1.2rem; border-radius: 9999px;
+    background: var(--surface-high);
+    border: 1px solid rgba(64,72,93,0.15);
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--on-bg); font-family: 'Manrope', sans-serif;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .corridor-tag-pill:hover { border-color: rgba(217,70,239,0.3); background: rgba(217,70,239,0.05); }
+  .corridor-arrow-pill { color: var(--on-muted); }
+
+  /* ── FINAL CTA ──────────────────────────────────────────── */
+  #cta-final {
+    margin: 0 2rem 5rem;
+    border-radius: 1.5rem; overflow: hidden;
+    background: var(--grad);
+    padding: 5rem 3rem; text-align: center;
+    position: relative;
+  }
+  #cta-final::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(6,14,32,0.3);
+  }
+  .cta-final-inner { position: relative; z-index: 1; }
+  #cta-final h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.04em;
+    color: #fff; margin-bottom: 1rem;
+  }
+  #cta-final p {
+    color: rgba(255,255,255,0.8); margin-bottom: 2.5rem; font-size: 1.05rem;
+  }
+  .cta-final-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-white {
+    padding: 1rem 2.2rem; border-radius: 0.75rem;
+    background: #fff; color: #312E81;
+    border: none; cursor: pointer;
+    font-family: 'Manrope', sans-serif; font-weight: 800;
+    font-size: 1rem; letter-spacing: -0.01em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-white:hover { transform: scale(1.04); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .btn-white-ghost {
+    padding: 1rem 2.2rem; border-radius: 0.75rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff; cursor: pointer;
+    font-family: 'Manrope', sans-serif; font-weight: 700;
+    font-size: 1rem; transition: background 0.2s;
+  }
+  .btn-white-ghost:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid rgba(64,72,93,0.1);
+    padding: 3.5rem 2rem 2rem;
+  }
+  .footer-inner {
+    max-width: 1280px; margin: 0 auto;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand {}
+  .footer-tagline { color: var(--on-muted); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.6; max-width: 220px; }
+  .footer-social { display: flex; gap: 0.75rem; margin-top: 1.2rem; }
+  .footer-social a {
+    width: 36px; height: 36px; border-radius: 0.5rem;
+    background: var(--surface-low);
+    border: 1px solid rgba(64,72,93,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--on-muted); text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    font-size: 0.75rem; font-weight: 700; font-family: 'Manrope', sans-serif;
+  }
+  .footer-social a:hover { border-color: var(--primary); color: var(--primary); }
+  .footer-col-title {
+    font-family: 'Manrope', sans-serif; font-weight: 700;
+    font-size: 0.82rem; letter-spacing: 0.05em;
+    color: var(--on-bg); margin-bottom: 1rem;
+  }
+  .footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-links a {
+    color: var(--on-muted); text-decoration: none; font-size: 0.82rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--on-bg); }
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 2rem; border-top: 1px solid rgba(64,72,93,0.1);
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-copy { color: var(--on-muted); font-size: 0.78rem; }
+  .footer-bottom-links { display: flex; gap: 1.5rem; }
+  .footer-bottom-links a { color: var(--on-muted); font-size: 0.78rem; text-decoration: none; transition: color 0.2s; }
+  .footer-bottom-links a:hover { color: var(--on-bg); }
+  .status-pill {
+    display: flex; align-items: center; gap: 6px;
+    padding: 0.3rem 0.75rem; border-radius: 9999px;
+    background: var(--surface-low);
+    border: 1px solid rgba(64,72,93,0.15);
+    font-size: 0.7rem; font-weight: 700; color: var(--on-muted);
+  }
+  .status-ok { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; }
+
+  /* ── SCROLL REVEAL ──────────────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── INFINITY LOGO SVG ──────────────────────────────────── */
+  .logo-mark { display: inline-block; }
+
+  /* ── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .btn-ghost-nav { display: none; }
+    .nav-hamburger { display: block; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .steps-grid::before { display: none; }
+    .corridor-grid { grid-template-columns: 1fr; gap: 1px; }
+    .demo-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .metrics-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .float-badge { display: none; }
+    #cta-final { margin: 0 1rem 3rem; padding: 3rem 1.5rem; }
+    .hero-phone-wrap { display: none; }
+  }
+  @media (max-width: 600px) {
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <!-- Infinity loop logo SVG -->
+      <svg class="logo-mark" width="36" height="22" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="22" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#312E81"/>
+            <stop offset="50%" stop-color="#D946EF"/>
+            <stop offset="100%" stop-color="#F97316"/>
+          </linearGradient>
+        </defs>
+        <path d="M18 11C18 11 14 3 9 3C4.5 3 1 6.5 1 11C1 15.5 4.5 19 9 19C14 19 18 11 18 11Z" stroke="url(#logoGrad)" stroke-width="2" fill="none"/>
+        <path d="M18 11C18 11 22 3 27 3C31.5 3 35 6.5 35 11C35 15.5 31.5 19 27 19C22 19 18 11 18 11Z" stroke="url(#logoGrad)" stroke-width="2" fill="none"/>
+        <!-- waveforms in left loop -->
+        <line x1="6" y1="11" x2="7" y2="8" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="7" y1="8" x2="8" y2="14" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="8" y1="14" x2="9" y2="9" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="9" y1="9" x2="10" y2="13" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="10" y1="13" x2="11" y2="11" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <!-- waveforms in right loop -->
+        <line x1="25" y1="11" x2="26" y2="8" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="26" y1="8" x2="27" y2="14" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="27" y1="14" x2="28" y2="9" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="28" y1="9" x2="29" y2="13" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="29" y1="13" x2="30" y2="11" stroke="url(#logoGrad)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span class="nav-logo-text">Lingo!</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#demo">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#corridors">Solutions</a></li>
+      <li><a href="#">Demo</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button class="btn-ghost-nav">Sign In</button>
+      <button class="grad-btn btn-primary-nav">Get Started Free</button>
+      <button class="nav-hamburger">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────────────── -->
+<section id="hero" class="dot-grid">
+
+  <!-- Light leaks -->
+  <div class="leak" style="width:600px;height:600px;top:-150px;right:-100px;background:rgba(49,46,129,0.12);"></div>
+  <div class="leak" style="width:400px;height:400px;bottom:-100px;left:10%;background:rgba(217,70,239,0.07);"></div>
+  <div class="leak" style="width:300px;height:300px;top:30%;left:-80px;background:rgba(249,115,22,0.05);"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge reveal">
+      <span class="hero-badge-dot"></span>
+      Real-Time AI Translation · Africa · Asia · Europe
+    </div>
+    <h1 class="hero-h1 reveal reveal-delay-1">
+      Close the Deal in<br>
+      <span class="grad-text-warm">Any Language</span>
+    </h1>
+    <p class="hero-sub reveal reveal-delay-2">
+      Real-time AI voice translation and live captions for global traders.
+      Stop losing business to language barriers — speak freely, understand instantly.
+    </p>
+    <div class="hero-btns reveal reveal-delay-3">
+      <button class="grad-btn btn-primary-hero">Start Your First Bridge Free →</button>
+      <button class="btn-watch">
+        <div class="btn-watch-icon">
+          <span class="material-symbols-outlined" style="font-size:18px;color:var(--on-bg)">play_arrow</span>
+        </div>
+        Watch Platform Demo
+      </button>
+    </div>
+
+    <!-- Phone Mockup -->
+    <div class="hero-phone-wrap reveal reveal-delay-4">
+      <div class="hero-phone-glow"></div>
+
+      <!-- Floating badges -->
+      <div class="float-badge glass ghost-border float-badge-encrypt">
+        <span class="material-symbols-outlined" style="color:var(--secondary);font-size:18px">verified_user</span>
+        <span style="font-size:0.78rem;font-weight:700">End-to-End Encrypted</span>
+      </div>
+      <div class="float-badge glass ghost-border float-badge-latency">
+        <span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">graphic_eq</span>
+        <span style="font-size:0.78rem;font-weight:700">Latency: 38ms</span>
+      </div>
+
+      <div class="phone-shell">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="phone-header">
+            <div class="phone-user">
+              <div class="phone-avatar">
+                W
+                <span class="phone-flag">🇨🇳</span>
+              </div>
+              <div>
+                <div class="phone-username">Wei Zhang</div>
+                <div class="phone-hub">Shenzhen Hub</div>
+              </div>
+            </div>
+            <div class="phone-play">
+              <span class="material-symbols-outlined" style="font-size:18px;color:var(--on-bg)">pause</span>
+            </div>
+          </div>
+
+          <div class="phone-visualizer">
+            <div class="phone-glow-orb"></div>
+            <div class="phone-caption">
+              <p>"装运清关已完成，货物预计明天到达。"</p>
+              <div class="phone-caption-bar"></div>
+              <div class="phone-caption-sub">→ "Shipment clearance complete. Goods arrive tomorrow."</div>
+            </div>
+          </div>
+
+          <div class="phone-footer">
+            <span><span class="phone-live-dot"></span>LIVE BRIDGE</span>
+            <span>BRIDGE SECURE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── METRICS STRIP ────────────────────────────────────────── -->
+<div class="metrics-strip">
+  <div class="metrics-inner">
+    <div class="metric-item reveal">
+      <div class="metric-num" style="color:var(--primary-dim)">0.4s</div>
+      <div class="metric-label">Voice Latency</div>
+    </div>
+    <div class="metric-item reveal reveal-delay-1">
+      <div class="metric-num" style="color:var(--tertiary)">120+</div>
+      <div class="metric-label">Supported Dialects</div>
+    </div>
+    <div class="metric-item reveal reveal-delay-2">
+      <div class="metric-num" style="color:var(--secondary)">99.9%</div>
+      <div class="metric-label">Accuracy Rating</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ─────────────────────────────────────────── -->
+<section id="how">
+  <div class="section-inner">
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="section-title reveal reveal-delay-1">
+      Six stages. <span class="grad-text">Under a second.</span>
+    </h2>
+    <p class="section-sub reveal reveal-delay-2">
+      Every word you speak travels through a real-time AI pipeline and arrives in the listener's language before you've finished your sentence.
+    </p>
+
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">1</div>
+        <div class="step-title">You Speak</div>
+        <p class="step-desc">Your voice is captured via WebRTC in 300ms chunks. No delays, no buffering — just natural conversation.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-num">2</div>
+        <div class="step-title">AI Transcribes</div>
+        <p class="step-desc">Whisper AI converts your speech to text in real time, detecting your language automatically with fastText.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-num">3</div>
+        <div class="step-title">Instant Translation</div>
+        <p class="step-desc">DeepL or NLLB-200 translates your words mid-sentence, preserving tone, context, and technical terms.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">4</div>
+        <div class="step-title">Voice Synthesis</div>
+        <p class="step-desc">ElevenLabs generates a natural-sounding voice in the listener's language before your sentence is even finished.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-num">5</div>
+        <div class="step-title">They Hear You</div>
+        <p class="step-desc">The translated voice plays in the listener's ear — clear, natural, and in their own language.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-num">6</div>
+        <div class="step-title">Live Captions</div>
+        <p class="step-desc">Dual-script captions appear in both languages simultaneously, giving both parties a written record of every word.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIVE DEMO SECTION ────────────────────────────────────── -->
+<section id="demo" style="background:var(--surface-low)">
+  <div class="section-inner">
+    <div class="demo-grid">
+      <!-- Visual -->
+      <div class="demo-visual reveal">
+        <!-- User A -->
+        <div class="demo-caption-box" style="margin-bottom:1rem">
+          <div class="demo-user-row">
+            <div class="demo-avatar-sm" style="background:linear-gradient(135deg,#312E81,#D946EF)">AK</div>
+            <span class="demo-name">Amara Eze</span>
+            <span class="demo-lang-badge" style="background:rgba(49,46,129,0.2);color:var(--secondary)">EN</span>
+            <span style="font-size:0.7rem;color:var(--on-muted);margin-left:auto">Lagos, Nigeria 🇳🇬</span>
+          </div>
+          <div class="demo-text" style="border-color:var(--secondary)">
+            "What is your MOQ for the Ankara fabric and what are your FOB Guangzhou terms?"
+          </div>
+          <div class="demo-translation">↓ 以安卡拉布料的最低起订量是多少？广州FOB条款是什么？</div>
+        </div>
+
+        <!-- User B -->
+        <div class="demo-caption-box">
+          <div class="demo-user-row">
+            <div class="demo-avatar-sm" style="background:linear-gradient(135deg,#D946EF,#F97316)">LW</div>
+            <span class="demo-name">Li Wei</span>
+            <span class="demo-lang-badge" style="background:rgba(249,115,22,0.15);color:var(--tertiary)">ZH</span>
+            <span style="font-size:0.7rem;color:var(--on-muted);margin-left:auto">Guangzhou, China 🇨🇳</span>
+          </div>
+          <div class="demo-text" style="border-color:var(--tertiary)">
+            "最低起订量是500米，FOB价格含清关费用，我们通常3天内出货。"
+          </div>
+          <div class="demo-translation">↓ "MOQ is 500 meters, FOB includes clearance. We typically ship within 3 days."</div>
+        </div>
+
+        <div class="demo-status-bar">
+          <div class="status-live">
+            <div class="live-pulse"></div>
+            LIVE BRIDGE ACTIVE
+          </div>
+          <span>Mandarin ⇆ English</span>
+          <span>Latency: 38ms</span>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="demo-text-col">
+        <div class="section-label reveal">Live Translation</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Trade at the<br><span class="grad-text">Speed of Voice</span>
+        </h2>
+        <p class="section-sub reveal reveal-delay-2" style="margin-bottom:0">
+          Every word is processed mid-sentence — not after you finish speaking. No awkward pauses. No misunderstood terms. No $200/hour interpreter.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature-item reveal">
+            <div class="feature-icon">
+              <span class="material-symbols-outlined" style="color:var(--primary)">bolt</span>
+            </div>
+            <div>
+              <div class="feature-title">Incremental translation</div>
+              <div class="feature-desc">Processing starts mid-sentence, not after you stop talking. 40–60% faster perceived latency.</div>
+            </div>
+          </div>
+          <div class="feature-item reveal reveal-delay-1">
+            <div class="feature-icon">
+              <span class="material-symbols-outlined" style="color:var(--tertiary)">contract</span>
+            </div>
+            <div>
+              <div class="feature-title">Trade terminology preserved</div>
+              <div class="feature-desc">FOB, CIF, MOQ, Incoterms — correctly translated where Google Translate fails.</div>
+            </div>
+          </div>
+          <div class="feature-item reveal reveal-delay-2">
+            <div class="feature-icon">
+              <span class="material-symbols-outlined" style="color:var(--secondary)">closed_caption</span>
+            </div>
+            <div>
+              <div class="feature-title">Dual-script captions</div>
+              <div class="feature-desc">Both languages shown simultaneously. Full transcript saved after every call.</div>
+            </div>
+          </div>
+          <div class="feature-item reveal reveal-delay-3">
+            <div class="feature-icon">
+              <span class="material-symbols-outlined" style="color:var(--primary)">lock</span>
+            </div>
+            <div>
+              <div class="feature-title">End-to-end encrypted</div>
+              <div class="feature-desc">AES-256 encryption on every audio stream. Your business stays yours.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO IT'S FOR ─────────────────────────────────────────── -->
+<section id="corridors">
+  <div class="section-inner">
+    <div class="section-label reveal">Solutions</div>
+    <h2 class="section-title reveal reveal-delay-1">
+      Built for the <span class="grad-text">Global Trade Floor</span>
+    </h2>
+    <p class="section-sub reveal reveal-delay-2">
+      Whether you're importing from Guangzhou, exporting to London, or sourcing from Mumbai — Lingo bridges the gap.
+    </p>
+
+    <div class="corridor-grid reveal reveal-delay-2">
+      <div class="corridor-card">
+        <div class="corridor-icon-wrap">
+          <span class="material-symbols-outlined" style="color:var(--secondary)">verified_user</span>
+        </div>
+        <div class="corridor-tag">For Importers</div>
+        <div class="corridor-title">Verify Shipments Directly</div>
+        <p class="corridor-desc">Call your supplier and confirm specs, terms, and timelines in their native tongue. <strong>Save $200 on every supplier call.</strong> No interpreter. No middleman.</p>
+        <div class="corridor-cta">
+          Optimize flow
+          <span class="material-symbols-outlined corridor-arrow" style="font-size:16px">arrow_forward</span>
+        </div>
+      </div>
+
+      <div class="corridor-card">
+        <div class="corridor-icon-wrap">
+          <span class="material-symbols-outlined" style="color:var(--primary)">public</span>
+        </div>
+        <div class="corridor-tag">For Sourcing Agents</div>
+        <div class="corridor-title">Expand Across 5 Continents</div>
+        <p class="corridor-desc">Manage clients from Lagos to London to Shenzhen without an interpreter on retainer. <strong>100% data privacy.</strong> Full transcript after every negotiation.</p>
+        <div class="corridor-cta">
+          Scale global
+          <span class="material-symbols-outlined corridor-arrow" style="font-size:16px">arrow_forward</span>
+        </div>
+      </div>
+
+      <div class="corridor-card">
+        <div class="corridor-icon-wrap">
+          <span class="material-symbols-outlined" style="color:var(--tertiary)">factory</span>
+        </div>
+        <div class="corridor-tag">For Manufacturers</div>
+        <div class="corridor-title">Direct Distribution Globally</div>
+        <p class="corridor-desc">Talk directly to African, European, and Asian buyers without middlemen. <strong>Build trust faster. Close faster.</strong> No lost context in translation layers.</p>
+        <div class="corridor-cta">
+          Secure supply
+          <span class="material-symbols-outlined corridor-arrow" style="font-size:16px">arrow_forward</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CORRIDOR TAGS ─────────────────────────────────────────── -->
+<div id="trade-map">
+  <div class="section-label" style="justify-content:center">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="width:24px;height:1px;background:var(--primary);display:block"></span>
+      Active Corridors
+      <span style="width:24px;height:1px;background:var(--primary);display:block"></span>
+    </div>
+  </div>
+  <p style="color:var(--on-muted);font-size:0.88rem;margin-top:0.5rem">The Africa-Asia-Europe trade lane — Lingo's highest-demand network</p>
+  <div class="corridor-tags">
+    <div class="corridor-tag-pill">🇳🇬 Lagos <span class="corridor-arrow-pill">⇆</span> 🇨🇳 Guangzhou</div>
+    <div class="corridor-tag-pill">🇳🇬 Abuja <span class="corridor-arrow-pill">⇆</span> 🇬🇧 London</div>
+    <div class="corridor-tag-pill">🇰🇪 Nairobi <span class="corridor-arrow-pill">⇆</span> 🇨🇳 Shenzhen</div>
+    <div class="corridor-tag-pill">🇬🇭 Accra <span class="corridor-arrow-pill">⇆</span> 🇩🇪 Berlin</div>
+    <div class="corridor-tag-pill">🇮🇳 Mumbai <span class="corridor-arrow-pill">⇆</span> 🇦🇪 Dubai</div>
+    <div class="corridor-tag-pill">🇿🇦 Johannesburg <span class="corridor-arrow-pill">⇆</span> 🇫🇷 Paris</div>
+    <div class="corridor-tag-pill">🇹🇷 Istanbul <span class="corridor-arrow-pill">⇆</span> 🇳🇬 Lagos</div>
+  </div>
+</div>
+
+<!-- ── PRICING ───────────────────────────────────────────────── -->
+<section id="pricing">
+  <div class="section-inner">
+    <div class="section-label reveal">Pricing</div>
+    <h2 class="section-title reveal reveal-delay-1">
+      Start free. <span class="grad-text">Scale when you're ready.</span>
+    </h2>
+    <p class="section-sub reveal reveal-delay-2">
+      Built for the Nigerian market and priced for African businesses. Location-aware pricing automatically applies.
+    </p>
+
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="pricing-card reveal">
+        <div class="pricing-tier">Free Plan</div>
+        <div class="pricing-price">
+          <span class="price-amount">₦0</span>
+          <span class="price-period"> / month</span>
+        </div>
+        <div class="price-naira">30 free minutes every month, forever</div>
+        <hr class="pricing-divider">
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            30 minutes/month of live captions
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            1-to-1 audio calls
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            3 language pairs
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            Live translated captions
+          </div>
+        </div>
+        <button class="pricing-cta-ghost">Get Started Free</button>
+      </div>
+
+      <!-- Starter — featured -->
+      <div class="pricing-card featured reveal reveal-delay-1">
+        <div class="pricing-popular">Most Popular</div>
+        <div class="pricing-tier" style="color:var(--primary)">Starter Plan</div>
+        <div class="pricing-price">
+          <span class="price-amount grad-text-warm">₦5,000</span>
+          <span class="price-period"> / month</span>
+        </div>
+        <div class="price-naira">~$3.50 USD · Less than one interpreter hour</div>
+        <hr class="pricing-divider">
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            <strong>400 minutes/month</strong>
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            All 50+ language pairs
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            Priority low-latency servers
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            Caption history &amp; transcripts
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            Dual-script captions
+          </div>
+        </div>
+        <button class="grad-btn pricing-cta">Upgrade to Starter →</button>
+      </div>
+
+      <!-- Pay as you go -->
+      <div class="pricing-card reveal reveal-delay-2">
+        <div class="pricing-tier">Trade-Pass</div>
+        <div class="pricing-price">
+          <span class="price-amount">₦70</span>
+          <span class="price-period"> / minute</span>
+        </div>
+        <div class="price-naira">No subscription · Pay per call block</div>
+        <hr class="pricing-divider">
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            No monthly commitment
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            Use anytime, any language
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            Same translation quality
+          </div>
+          <div class="pricing-feature">
+            <span class="material-symbols-outlined check-icon" style="font-size:18px">check_circle</span>
+            Perfect for one-off trade calls
+          </div>
+        </div>
+        <button class="pricing-cta-ghost">Buy Call Credits →</button>
+      </div>
+    </div>
+
+    <!-- Addons -->
+    <div class="addon-strip reveal">
+      <div class="addon-text">
+        <strong>Need more minutes?</strong>
+        <span> Top up anytime — no subscription required.</span>
+      </div>
+      <div class="addon-badges">
+        <div class="addon-badge">100 min → ₦3,000</div>
+        <div class="addon-badge">300 min → ₦8,000</div>
+        <div class="addon-badge">500 min → ₦12,000</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ──────────────────────────────────────────── -->
+<section style="background:var(--surface-low)">
+  <div class="section-inner">
+    <div class="section-label reveal">Social Proof</div>
+    <h2 class="section-title reveal reveal-delay-1">
+      Trusted by <span class="grad-text">traders worldwide</span>
+    </h2>
+    <p class="section-sub reveal reveal-delay-2">Early users across the Africa-Asia-Europe corridor.</p>
+
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="testi-quote-mark">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I used to spend ₦80,000 per supplier call on interpreters. With Lingo I had a 45-minute negotiation with my Shenzhen supplier for ₦3,000. Deal closed same day."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#312E81,#D946EF)">AE</div>
+          <div>
+            <div class="testi-name">Amara Eze</div>
+            <div class="testi-role">Importer · Eze Global Logistics, Lagos</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-quote-mark">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The Incoterm translation is what sold me. When Lingo correctly translated FOB Guangzhou terms to my Igbo-speaking client, I knew this was different from Google Translate."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#D946EF,#F97316)">KT</div>
+          <div>
+            <div class="testi-name">Kojo Tunde</div>
+            <div class="testi-role">Sourcing Agent · Ashanti Textiles, Accra</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-quote-mark">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"We interviewed 12 international candidates in one morning without a single interpreter. The HR use case alone justifies the Starter plan for our firm."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#312E81,#a19ff9)">IS</div>
+          <div>
+            <div class="testi-name">Isabella Silva</div>
+            <div class="testi-role">HR Director · Rio BioTech, São Paulo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ─────────────────────────────────────────────── -->
+<div id="cta-final">
+  <div class="cta-final-inner">
+    <h2>Your next trade deal<br>starts with one call.</h2>
+    <p>Join global traders who use Lingo to close deals without language barriers. 30 free minutes — no card required.</p>
+    <div class="cta-final-btns">
+      <button class="btn-white">Start Free — 30 Minutes Included →</button>
+      <button class="btn-white-ghost">See Platform Demo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:0.5rem">
+          <svg width="28" height="18" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="fGrad" x1="0" y1="0" x2="36" y2="22" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#312E81"/>
+                <stop offset="50%" stop-color="#D946EF"/>
+                <stop offset="100%" stop-color="#F97316"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 11C18 11 14 3 9 3C4.5 3 1 6.5 1 11C1 15.5 4.5 19 9 19C14 19 18 11 18 11Z" stroke="url(#fGrad)" stroke-width="2" fill="none"/>
+            <path d="M18 11C18 11 22 3 27 3C31.5 3 35 6.5 35 11C35 15.5 31.5 19 27 19C22 19 18 11 18 11Z" stroke="url(#fGrad)" stroke-width="2" fill="none"/>
+          </svg>
+          <span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:1.2rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Lingo!</span>
+        </div>
+        <p class="footer-tagline">Real-time AI translation for the global trade floor. Built by Mastr Buildr, Port Harcourt.</p>
+        <div class="footer-social">
+          <a href="#">X</a>
+          <a href="#">in</a>
+          <a href="#">YT</a>
+        </div>
+      </div>
+      <!-- Product -->
+      <div>
+        <div class="footer-col-title">Product</div>
+        <div class="footer-links">
+          <a href="#">Features</a>
+          <a href="#">Pricing</a>
+          <a href="#">Demo</a>
+          <a href="#">API Access</a>
+          <a href="#">Changelog</a>
+        </div>
+      </div>
+      <!-- Solutions -->
+      <div>
+        <div class="footer-col-title">Solutions</div>
+        <div class="footer-links">
+          <a href="#">For Importers</a>
+          <a href="#">For Sourcing Agents</a>
+          <a href="#">For Manufacturers</a>
+          <a href="#">HR & Recruitment</a>
+          <a href="#">Enterprise</a>
+        </div>
+      </div>
+      <!-- Company -->
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Mastr Buildr</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Lingo! by Mastr Buildr. All rights reserved.</span>
+      <div class="status-pill">
+        <div class="status-ok"></div>
+        All Systems Operational
+      </div>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Status</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Animated caption cycle
+const captions = [
+  { zh: '"装运清关已完成，货物预计明天到达。"', en: '→ "Shipment clearance complete. Goods arrive tomorrow."' },
+  { zh: '"FOB广州的价格是每件12美元。"', en: '→ "FOB Guangzhou price is $12 per unit."' },
+  { zh: '"最低起订量是500件，交货期21天。"', en: '→ "MOQ is 500 units, 21-day lead time."' },
+  { zh: '"我们可以为您提供信用证付款方式。"', en: '→ "We can offer Letter of Credit payment terms."' },
+];
+let captionIdx = 0;
+const captionEl = document.querySelector('.phone-caption p');
+const captionSubEl = document.querySelector('.phone-caption-sub');
+if (captionEl && captionSubEl) {
+  setInterval(() => {
+    captionIdx = (captionIdx + 1) % captions.length;
+    captionEl.style.opacity = '0';
+    captionSubEl.style.opacity = '0';
+    setTimeout(() => {
+      captionEl.textContent = captions[captionIdx].zh;
+      captionSubEl.textContent = captions[captionIdx].en;
+      captionEl.style.opacity = '1';
+      captionSubEl.style.opacity = '1';
+    }, 300);
+  }, 3500);
+  captionEl.style.transition = 'opacity 0.3s';
+  captionSubEl.style.transition = 'opacity 0.3s';
+}
+
+// Counter animation for metrics
+const counters = document.querySelectorAll('.metric-num');
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) counterObserver.unobserve(e.target);
+  });
+}, { threshold: 0.5 });
+counters.forEach(el => counterObserver.observe(el));
+</script>
+</body>
+</html>
