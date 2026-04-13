@@ -1,0 +1,23 @@
+
+> lingo-frontend@0.1.1 build
+> next build
+
+▲ Next.js 16.2.2 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 10.5s
+  Running TypeScript ...
+Failed to type check.
+
+.next/dev/types/validator.ts:62:1
+Type error: Cannot find name 'onse'.
+
+  [90m60 |[0m   [36mtype[0m __Unused = __Check
+  [90m61 |[0m }
+[31m[1m>[0m [90m62 |[0m onse | [36mvoid[0m
+  [90m   |[0m [31m[1m^[0m
+  [90m63 |[0m   [33mPATCH[0m?: (request: [33mNextRequest[0m, context: { params: [33mPromise[0m<[33mParamMap[0m[[33mRoute[0m]> }) => [33mPromise[0m.[33m..[0m
+  [90m64 |[0m   [33mDELETE[0m?: (request: [33mNextRequest[0m, context: { params: [33mPromise[0m<[33mParamMap[0m[[33mRoute[0m]> }) => [33mPromis.[0m.[33m.[0m
+  [90m65 |[0m   [33mHEAD[0m?: (request: [33mNextRequest[0m, context: { params: [33mPromise[0m<[33mParamMap[0m[[33mRoute[0m]> }) => [33mPromise[0m<[33m...[0m
+Next.js build worker exited with code: 1 and signal: null
