@@ -163,7 +163,7 @@ function CenterPanel({ language, muted, onMuteToggle, onLeave }: {
 
           {/* This is the critical fix: conditional component instead of conditional hook */}
           {guest ? (
-            <RemoteParticipant guest={guest} />
+            <RemoteParticipant participant={guest}
           ) : (
             <WaitingAvatar />
           )}
