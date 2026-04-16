@@ -3,12 +3,16 @@
   "services": {
     "lingo-api": {
       "source": "lingo-stage1-audio-only/lingo-v2/backend",
-      "healthcheckPath": "/health",
-      "numReplicas": 1
+      "config": {
+        "numReplicas": 1,
+        "healthcheckPath": "/health"
+      }
     },
     "lingo-agent": {
       "source": "lingo-stage1-audio-only/lingo-v2/agent",
-      "numReplicas": 1
+      "config": {
+        "numReplicas": 1
+      }
     }
   }
 }
