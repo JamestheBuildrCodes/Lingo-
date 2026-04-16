@@ -1,11 +1,14 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "services": {
-    "lingo-backend": {
-      "source": "lingo-stage1-audio-only/lingo-v2/backend"
+    "lingo-api": {
+      "source": "lingo-stage1-audio-only/lingo-v2/backend",
+      "healthcheckPath": "/health",
+      "numReplicas": 1
     },
     "lingo-agent": {
-      "source": "lingo-stage1-audio-only/lingo-v2/agent"
+      "source": "lingo-stage1-audio-only/lingo-v2/agent",
+      "numReplicas": 1
     }
   }
 }
