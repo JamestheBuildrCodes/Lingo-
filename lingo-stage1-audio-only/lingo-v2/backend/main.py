@@ -12,8 +12,9 @@ app = FastAPI(title="Lingo API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://lingo-21.onrender.com",  # Your live frontend
-        "http://localhost:3000",          # Local testing
+        "https://lingo-21.onrender.com", 
+        "https://lingo-1.onrender.com",   # Add this if your URL is different
+        "http://localhost:3000",
     ],
     allow_credentials=True,
     allow_methods=["*"],
