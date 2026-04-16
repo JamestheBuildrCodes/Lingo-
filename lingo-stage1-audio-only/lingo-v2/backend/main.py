@@ -9,8 +9,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Load local .env if it exists, but Render will use its Dashboard Environment Variables
-env_path = Path(__file__).parent / ".env"
-load_dotenv(dotenv_path=env_path)
+# env_path = Path(__file__).parent / ".env"
+# load_dotenv(dotenv_path=env_path)
 
 app = FastAPI(title="Lingo API", version="1.0.0")
 
